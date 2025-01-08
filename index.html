@@ -97,7 +97,7 @@
 
         #info {
             position: absolute;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
             z-index: 100;
             background: rgba(255, 255, 255, 0.1);
@@ -108,10 +108,12 @@
             font-size: 16px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
+            opacity: 1;
+            transition: opacity 0.5s;
         }
 
-        #info p {
-            margin: 0;
+        #info.hidden {
+            opacity: 0;
         }
     </style>
 </head>
@@ -175,6 +177,26 @@
             resetButton.addEventListener('click', () => {
                 resetCameraPosition();
             });
+
+            // Получаем элемент информации
+            const infoDiv = document.getElementById('info');
+
+            // Скрываем информацию через 5 секунд и удаляем из DOM
+            setTimeout(() => {
+                hideAndRemoveInfo(infoDiv);
+            }, 5000);
+
+            // Добавляем обработчик события клика для быстрого скрытия
+            infoDiv.addEventListener('click', () => {
+                hideAndRemoveInfo(infoDiv);
+            });
+        }
+
+        function hideAndRemoveInfo(infoDiv) {
+            infoDiv.classList.add('hidden');
+            setTimeout(() => {
+                infoDiv.remove();
+            }, 500); // Задержка для завершения анимации
         }
 
         function isMobileDevice() {
